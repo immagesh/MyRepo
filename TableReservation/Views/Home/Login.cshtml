@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+
+        table th {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+    .error {
+        color: red;
+    }
+</style>
+
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <th colspan="3">
+            Log In
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Username
+        </td>
+        <td>
+            <input type="text" id="Username" name="Username">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Password
+        </td>
+        <td>
+            <input type="password" id="Password" name="Password">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onclick="Loginvalidate()" value="Submit" />
+        </td>
+    </tr>
+</table>
+@section scripts {
+    <script type="text/javascript">
+        function Loginvalidate() {
+            var BkTablemodel = {
+                Username: $("#Username").val(),
+                Password: $("#Password").val()
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTLogIn",
+                data: BkTablemodel,
+                success: function (data) {
+                    if (data == 2) {
+                        alert("Login Failed!!!");
+                    }
+                    else {
+                        window.location.href = 'http://localhost:53281/Home/SetAuthentication?PostData1=' + data.Table[0].Username + "&PostData2=" + data.Table[0].Email + "&PostData3=" + data.Table[0].UserId ;
+                    }
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    </script>
+}

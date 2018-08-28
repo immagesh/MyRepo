@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Dasboard";
+}
+
+<h2>Book your Table</h2>
+<br />
+Please select your booking details
+<br />
+<br />
+<br />
+SELECT A RESTAURANT
+<select id="ResDDL"></select>
+SELECT A DATE AND TIME
+<input type="text" id="ChckInDte" name="Check In Date">
+NUMBER OF GUESTS
+<select id="GuestDDL"></select>
+<br />
+<br />
+<br />
+<input type="button" onclick="BookTablet()" value="Submit" />
+<br />
+<br />
+<br />
+<text>Booking History</text>
+<table id="usergrid" class="display" style="width:100%"></table>
+@section scripts {
+    <script type="text/javascript">
+        $("#ChckInDte").datetimepicker({ minDate: 0, dateFormat: 'dd/mm/yy' });
+        var userId = '@Request.RequestContext.HttpContext.Session["UserId"]';
+
+        $(document).ready(function () {
+            alert("in");
+            var modelparam = {
+                UserId: userId
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:53808/api/tablereservation/GETAdminGrid",
+                data: modelparam,
+                success: function (data) {
+                    $("#example").empty();
+                    if (data.Table.length > 0) {
+                        $("#example").append("<tr><th>User</th><th>Email</th><th>Date</th><th>Guests</th><th>Registration Number</th><th>Resturant Name</th><th>Action</th></tr>");
+                        for (var i = 0; i < data.Table.length; i++) {
+                            if (data.Table[i].StatusId == 1) {
+                                $("#example").append("<tr><td>" +
+                                    data.Table[i].UserName + "</td> <td>" +
+                                    data.Table[i].Email + "</td> <td>" +
+                                    data.Table[i].ApptDate + "</td> <td>" +
+                                    data.Table[i].GuestCount + "</td><td>" +
+                                    data.Table[i].RegistrationNumber + "</td><td>" +
+                                    data.Table[i].RestaurantName + "</td><td>Approved</td></tr>"
+                                );
+                            }
+                            else if (data.Table[i].StatusId == 2) {
+                                $("#example").append("<tr><td>" +
+                                    data.Table[i].UserName + "</td> <td>" +
+                                    data.Table[i].Email + "</td> <td>" +
+                                    data.Table[i].ApptDate + "</td> <td>" +
+                                    data.Table[i].GuestCount + "</td><td>" +
+                                    data.Table[i].RegistrationNumber + "</td><td>" +
+                                    data.Table[i].RestaurantName + "</td><td>Rejected</td></tr>"
+                                );
+                            }
+                            else {
+                                $("#example").append("<tr><td>" +
+                                    data.Table[i].UserName + "</td> <td>" +
+                                    data.Table[i].Email + "</td> <td>" +
+                                    data.Table[i].ApptDate + "</td> <td>" +
+                                    data.Table[i].GuestCount + "</td><td>" +
+                                    data.Table[i].RegistrationNumber + "</td><td>" +
+                                    data.Table[i].RestaurantName + "</td><td><input type='button' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 1 + ");' value='APPROVE'/></td><td><input type='button' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 2 + ");' value='REJECT'/></td></tr>"
+                                );
+                            }
+                        }
+                    }
+                },
+                failure: function (data) {
+                    alert(data.responseText);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        });
+
+
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:53808/api/tablereservation/GETData",
+            success: function (data) {
+                $.each(data.Table, function (key, value) {
+                    $("#ResDDL").append($('<option></option>').val(value.RestaurantId).html(value.RestaurantName));
+                });
+                $.each(data.Table1, function (key, value) {
+                    $("#GuestDDL").append($('<option></option>').val(value.GuestNo).html(value.GuestNo));
+                });
+            },
+            failure: function (data) {
+                alert(xhr.status);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+
+        function BookTablet() {
+            var BkTablemodel = {
+                ResturantId: $("#ResDDL").val(),
+                ApptDate: $("#ChckInDte").val(),
+                GuestCount: $("#GuestDDL").val(),
+                UserId: userId
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTbookTable",
+                data: BkTablemodel,
+                success: function (data) {
+                    alert("Your Booking Id is " + data);
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    </script>
+}
+
+
+
+

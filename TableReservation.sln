@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableReservation", "TableReservation\TableReservation.csproj", "{91F4D883-F5A1-4D31-9155-E71E9C9F4E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableReservation.Tests", "TableReservation.Tests\TableReservation.Tests.csproj", "{14D6C866-2839-47BF-87A5-0AEFCFCD1A4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTableReservation", "ApiTableReservation\ApiTableReservation.csproj", "{5AD4B71D-7152-4B4B-8944-69263CCD0A4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91F4D883-F5A1-4D31-9155-E71E9C9F4E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F4D883-F5A1-4D31-9155-E71E9C9F4E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F4D883-F5A1-4D31-9155-E71E9C9F4E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F4D883-F5A1-4D31-9155-E71E9C9F4E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D6C866-2839-47BF-87A5-0AEFCFCD1A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D6C866-2839-47BF-87A5-0AEFCFCD1A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D6C866-2839-47BF-87A5-0AEFCFCD1A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D6C866-2839-47BF-87A5-0AEFCFCD1A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD4B71D-7152-4B4B-8944-69263CCD0A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD4B71D-7152-4B4B-8944-69263CCD0A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD4B71D-7152-4B4B-8944-69263CCD0A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD4B71D-7152-4B4B-8944-69263CCD0A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C49AC3E-419F-49E0-B2B9-668DDEBCB1E6}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mageshweb.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ApiTableReservation\\ApiTableReservation.csproj
+		SccProjectName1 = ApiTableReservation
+		SccLocalPath1 = ApiTableReservation
+		SccProjectUniqueName2 = TableReservation.Tests\\TableReservation.Tests.csproj
+		SccProjectName2 = TableReservation.Tests
+		SccLocalPath2 = TableReservation.Tests
+		SccProjectUniqueName3 = TableReservation\\TableReservation.csproj
+		SccProjectName3 = TableReservation
+		SccLocalPath3 = TableReservation
+	EndGlobalSection
+EndGlobal
