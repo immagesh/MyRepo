@@ -2,76 +2,190 @@
 @{
     ViewBag.Title = "Dasboard";
 }
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
 
+    div.steelBlueCols {
+        border: 4px solid #555555;
+        background-color: #555555;
+        width: 800px;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    .divTable.steelBlueCols .divTableCell, .divTable.steelBlueCols .divTableHead {
+        border: 1px solid #555555;
+        padding: 5px 10px;
+    }
+
+    .divTable.steelBlueCols .divTableBody .divTableCell {
+        font-size: 12px;
+        font-weight: bold;
+        color: #FFFFFF;
+    }
+
+    .divTable.steelBlueCols .divTableCell:nth-child(even) {
+        background: #398AA4;
+    }
+
+    .steelBlueCols .tableFootStyle {
+        font-size: 13px;
+    }
+
+        .steelBlueCols .tableFootStyle .links {
+            text-align: right;
+        }
+
+            .steelBlueCols .tableFootStyle .links a {
+                display: inline-block;
+                background: #FFFFFF;
+                color: #398AA4;
+                padding: 2px 8px;
+                border-radius: 5px;
+            }
+
+    .steelBlueCols.outerTableFooter {
+        border-top: none;
+    }
+
+        .steelBlueCols.outerTableFooter .tableFootStyle {
+            padding: 3px 5px;
+        }
+    /* DivTable.com */
+    .divTable {
+        display: table;
+    }
+
+    .divTableRow {
+        display: table-row;
+    }
+
+    .divTableHeading {
+        display: table-header-group;
+    }
+
+    .divTableCell, .divTableHead {
+        display: table-cell;
+    }
+
+    .divTableHeading {
+        display: table-header-group;
+    }
+
+    .divTableFoot {
+        display: table-footer-group;
+    }
+
+    .divTableBody {
+        display: table-row-group;
+    }
+</style>
 <h2>Book your Table</h2>
-<br />
-Please select your booking details
-<br />
+<h3>Please select your booking details</h3>
 <br />
 <br />
-SELECT A RESTAURANT
-<select id="ResDDL"></select>
-SELECT A DATE AND TIME
+Select a Resturant
+<select class="btn btn-primary dropdown-toggle" id="ResDDL"></select>
+Select a date and time
 <input type="text" id="ChckInDte" name="Check In Date">
-NUMBER OF GUESTS
-<select id="GuestDDL"></select>
+Number of guests
+<select class="btn btn-primary dropdown-toggle" id="GuestDDL"></select>
 <br />
 <br />
+<text><b>Restaurant Overview</b></text>
+<div id="ResDetails">
+    <div class="divTable steelBlueCols">
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell">Adddress</div>
+                <div class="divTableCell" id="ResAddr">cell2_1</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">Phone Number</div>
+                <div class="divTableCell" id="phnnumber">cell2_2</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">Average Cost</div>
+                <div class="divTableCell" id="avgcost">cell2_2</div>
+            </div>
+        </div>
+    </div>
+</div>
 <br />
-<input type="button" onclick="BookTablet()" value="Submit" />
+<br />
+<input class="btn btn-success" type="button" onclick="BookTablet()" value="Submit" />
 <br />
 <br />
-<br />
-<text>Booking History</text>
-<table id="usergrid" class="display" style="width:100%"></table>
+<button class="btn btn-light" data-toggle="collapse" data-target="#demo">Booking History</button>
+<div id="demo" class="collapse">
+    <table id="usergrid" class="display" style="width:100%"></table>
+</div>
 @section scripts {
     <script type="text/javascript">
         $("#ChckInDte").datetimepicker({ minDate: 0, dateFormat: 'dd/mm/yy' });
         var userId = '@Request.RequestContext.HttpContext.Session["UserId"]';
 
         $(document).ready(function () {
-            alert("in");
+           
+            initalload();
+            restDetails(1);
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:53808/api/tablereservation/GETData",
+                success: function (data) {
+                    $.each(data.Table, function (key, value) {
+                        $("#ResDDL").append($('<option></option>').val(value.RestaurantId).html(value.RestaurantName));
+                    });
+                    $.each(data.Table1, function (key, value) {
+                        $("#GuestDDL").append($('<option></option>').val(value.GuestNo).html(value.GuestNo));
+                    });
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        });
+
+        function initalload() {
             var modelparam = {
                 UserId: userId
             }
-
             $.ajax({
-                type: "GET",
-                url: "http://localhost:53808/api/tablereservation/GETAdminGrid",
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTUserGrid",
                 data: modelparam,
                 success: function (data) {
-                    $("#example").empty();
+                    $("#usergrid").empty();
                     if (data.Table.length > 0) {
-                        $("#example").append("<tr><th>User</th><th>Email</th><th>Date</th><th>Guests</th><th>Registration Number</th><th>Resturant Name</th><th>Action</th></tr>");
+                        $("#usergrid").append("<tr><th>Registration Number</th><th>Resturant Name</th><th>Guests</th><th>Date</th><th>Status</th></tr>");
                         for (var i = 0; i < data.Table.length; i++) {
                             if (data.Table[i].StatusId == 1) {
-                                $("#example").append("<tr><td>" +
-                                    data.Table[i].UserName + "</td> <td>" +
-                                    data.Table[i].Email + "</td> <td>" +
-                                    data.Table[i].ApptDate + "</td> <td>" +
+                                $("#usergrid").append("<tr><td>" +
+                                    data.Table[i].RegistrationNumber + "</td> <td>" +
+                                    data.Table[i].RestaurantName + "</td><td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
-                                    data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td>Approved</td></tr>"
+                                    data.Table[i].ApptDate + "</td><td class='btn-success'>Approved</td></tr>"
                                 );
                             }
                             else if (data.Table[i].StatusId == 2) {
-                                $("#example").append("<tr><td>" +
-                                    data.Table[i].UserName + "</td> <td>" +
-                                    data.Table[i].Email + "</td> <td>" +
-                                    data.Table[i].ApptDate + "</td> <td>" +
+                                $("#usergrid").append("<tr><td>" +
+                                    data.Table[i].RegistrationNumber + "</td> <td>" +
+                                    data.Table[i].RestaurantName + "</td><td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
-                                    data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td>Rejected</td></tr>"
+                                    data.Table[i].ApptDate + "</td><td class='btn-danger'>Rejected</td></tr>"
                                 );
                             }
                             else {
-                                $("#example").append("<tr><td>" +
-                                    data.Table[i].UserName + "</td> <td>" +
-                                    data.Table[i].Email + "</td> <td>" +
-                                    data.Table[i].ApptDate + "</td> <td>" +
+                                $("#usergrid").append("<tr><td>" +
+                                    data.Table[i].RegistrationNumber + "</td> <td>" +
+                                    data.Table[i].RestaurantName + "</td><td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
-                                    data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td><input type='button' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 1 + ");' value='APPROVE'/></td><td><input type='button' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 2 + ");' value='REJECT'/></td></tr>"
+                                    data.Table[i].ApptDate + "</td><td class='btn-warning'>Waiting for Approval</td></tr>"
                                 );
                             }
                         }
@@ -84,43 +198,62 @@ NUMBER OF GUESTS
                     alert(data.responseText);
                 }
             });
-        });
-
-
-
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:53808/api/tablereservation/GETData",
-            success: function (data) {
-                $.each(data.Table, function (key, value) {
-                    $("#ResDDL").append($('<option></option>').val(value.RestaurantId).html(value.RestaurantName));
-                });
-                $.each(data.Table1, function (key, value) {
-                    $("#GuestDDL").append($('<option></option>').val(value.GuestNo).html(value.GuestNo));
-                });
-            },
-            failure: function (data) {
-                alert(xhr.status);
-            },
-            error: function (data) {
-                alert(data.responseText);
-            }
-        });
+        }
 
         function BookTablet() {
-            var BkTablemodel = {
-                ResturantId: $("#ResDDL").val(),
-                ApptDate: $("#ChckInDte").val(),
-                GuestCount: $("#GuestDDL").val(),
-                UserId: userId
+            var valid = true,
+                message = '';
+            if ($("#ChckInDte").val() == "") {
+                message += "Please select the date and time \n";
+                valid = false;
+            }
+            if (!valid) {
+                alert(message);
+            }
+            else {
+                var BkTablemodel = {
+                    ResturantId: $("#ResDDL").val(),
+                    ApptDate: $("#ChckInDte").val(),
+                    GuestCount: $("#GuestDDL").val(),
+                    UserId: userId
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:53808/api/tablereservation/POSTbookTable",
+                    data: BkTablemodel,
+                    success: function (data) {
+                        alert("Your Booking Id is " + data);
+                        initalload();
+                    },
+                    failure: function (data) {
+                        alert(xhr.status);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+        }
+
+        $("#ResDDL").change(function () {
+            var resId = $("#ResDDL").val();
+            restDetails(resId);
+        });
+
+        function restDetails(resId) {
+            var Restumodel = {
+                ResturantId: resId
             }
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:53808/api/tablereservation/POSTbookTable",
-                data: BkTablemodel,
+                url: "http://localhost:53808/api/tablereservation/POSTResDetails",
+                data: Restumodel,
                 success: function (data) {
-                    alert("Your Booking Id is " + data);
+                    $("#ResAddr").text(data.Table[0].RestaurantAddr);
+                    $("#phnnumber").text(data.Table[0].ResPhneNumber);
+                    $("#avgcost").text(data.Table[0].ResAvgCost);
                 },
                 failure: function (data) {
                     alert(xhr.status);

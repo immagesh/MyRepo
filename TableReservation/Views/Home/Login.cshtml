@@ -77,7 +77,7 @@
                         alert("Login Failed!!!");
                     }
                     else {
-                        window.location.href = 'http://localhost:53281/Home/SetAuthentication?PostData1=' + data.Table[0].Username + "&PostData2=" + data.Table[0].Email + "&PostData3=" + data.Table[0].UserId ;
+                        window.location.href = 'http://localhost:53281/Home/SetAuthentication?PostData1=' + data.Table[0].Username + "&PostData2=" + data.Table[0].IsAdmin + "&PostData3=" + data.Table[0].UserId ;
                     }
                 },
                 failure: function (data) {

@@ -38,10 +38,10 @@ namespace TableReservation.Controllers
             return View();
         }
 
-        public ActionResult SetAuthentication(string PostData1, string PostData2, string PostData3)
+        public ActionResult SetAuthentication(string PostData1, bool? PostData2, string PostData3)
         {
             Session["username"] = PostData1;
-            Session["email"] = PostData2;
+            Session["Isadmin"] = PostData2;
             Session["UserId"] = PostData3;
             FormsAuthentication.SetAuthCookie(PostData1, true);
             return RedirectToAction("Dasboard");

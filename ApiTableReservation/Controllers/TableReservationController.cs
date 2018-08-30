@@ -153,5 +153,49 @@ namespace ApiTableReservation.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, affectedRows);
         }
+
+        public HttpResponseMessage POSTResDetails(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("GetRestuarantDetails", conn);
+                    sqlComm.Parameters.AddWithValue("@ResturantId", model.ResturantId);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTUserGrid(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("AdminLoadData", conn);
+                    sqlComm.Parameters.AddWithValue("@userId", model.UserId);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
     }
 }
