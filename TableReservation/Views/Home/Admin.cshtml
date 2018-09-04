@@ -2,22 +2,23 @@
 @{
     ViewBag.Title = "Admin";
 }
-@if(Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
+@if (Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
 {
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
-<h2>Admin</h2>
-<table id="example" class="display" style="width:100%"></table>
-<br />
-<br />
-<br />
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <h2>Admin</h2>
+    <table id="example" class="display" style="width:100%"></table>
+    <br />
+    <br />
+    @Html.ActionLink("Admin Access", "AdminRole", "Home", new { }, null)
+    <br />
 }
 else
 {
-<h1>Access Denied </h1>
+    <h1>Access Denied </h1>
 }
 @section scripts {
     <script type="text/javascript">

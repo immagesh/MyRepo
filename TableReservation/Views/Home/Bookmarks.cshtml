@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Bookmarks";
+}
+<style>
+    ul {
+        list-style-type: none;
+        width: 500px;
+    }
+
+    h3 {
+        font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+    }
+</style>
+<h2>Your Bookmarks</h2>
+<ul id="details"></ul>
+@section scripts {
+    <script type="text/javascript">
+        var userId = '@Request.RequestContext.HttpContext.Session["UserId"]';
+        $(document).ready(function () {
+            initialbkmrks();
+        });
+
+        function initialbkmrks() {
+            $("#details").html('');
+            var list = $("#details").append('<ul ></ul>').find('ul');
+            var modelparam = {
+                UserId: userId
+            }
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTUserBookmarks",
+                data: modelparam,
+                success: function (data) {
+                    $.each(data.Table, function (key, value) {
+                        list.append('<li><h3>' + value.RestaurantName + '</h3><p>' + value.ResAddr + ', ' + value.Phnenum + '</p><span onclick="removeBkmrk(' + value.bookmrkId + ')">Remove Bookmark</span></li> ');
+                    });
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function removeBkmrk(id) {
+            var modelparam = {
+                BookmarkId: id
+            }
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTdelteBkmrk",
+                data: modelparam,
+                success: function (data) {
+                    alert("Bookmark removed successfully!!!");
+                    initialbkmrks();
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+    </script>
+}
+

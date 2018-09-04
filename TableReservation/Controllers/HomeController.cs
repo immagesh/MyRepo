@@ -47,17 +47,30 @@ namespace TableReservation.Controllers
             return RedirectToAction("Dasboard");
         }
 
+        [Authorize]
         public ActionResult Dasboard()
         {
             return View();
         }
+
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 
+        [Authorize]
         public ActionResult Admin()
+        {
+            return View();
+        }
+        [Authorize]
+        public ActionResult Bookmarks()
+        {
+            return View();
+        }
+        [Authorize]
+        public ActionResult AdminRole()
         {
             return View();
         }

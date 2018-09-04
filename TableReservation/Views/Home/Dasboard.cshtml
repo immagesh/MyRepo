@@ -81,7 +81,12 @@
     .divTableBody {
         display: table-row-group;
     }
+
+    .checked {
+        color: orange;
+    }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h2>Book your Table</h2>
 <h3>Please select your booking details</h3>
 <br />
@@ -91,7 +96,11 @@ Select a Resturant
 Select a date and time
 <input type="text" id="ChckInDte" name="Check In Date">
 Number of guests
-<select class="btn btn-primary dropdown-toggle" id="GuestDDL"></select>
+<select class="btn btn-primary dropdown-toggle" id="GuestDDL"></select>  <span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark">Bookmark Restaurant</span>
+<input type="hidden" id="hdnbkmrk" value="unchecked" />
+<br />
+<br />
+@Html.ActionLink("Your Bookmarks", "Bookmarks", "Home", new { }, null)
 <br />
 <br />
 <text><b>Restaurant Overview</b></text>
@@ -124,11 +133,13 @@ Number of guests
 </div>
 @section scripts {
     <script type="text/javascript">
-        $("#ChckInDte").datetimepicker({ minDate: 0, dateFormat: 'dd/mm/yy' });
+        $("#ChckInDte").datetimepicker({
+            minDate: 0, dateFormat: 'dd/mm/yy',
+        });
         var userId = '@Request.RequestContext.HttpContext.Session["UserId"]';
 
         $(document).ready(function () {
-           
+
             initalload();
             restDetails(1);
             $.ajax({
@@ -243,7 +254,8 @@ Number of guests
 
         function restDetails(resId) {
             var Restumodel = {
-                ResturantId: resId
+                ResturantId: resId,
+                UserId: userId
             }
 
             $.ajax({
@@ -254,6 +266,53 @@ Number of guests
                     $("#ResAddr").text(data.Table[0].RestaurantAddr);
                     $("#phnnumber").text(data.Table[0].ResPhneNumber);
                     $("#avgcost").text(data.Table[0].ResAvgCost);
+                    if (data.Table1[0].Column1 == 1) {
+                        $('#bkmrk').addClass("checked");
+                        $('#hdnbkmrk').val("checked");
+
+                    }
+                    else {
+                        $('#bkmrk').removeClass("checked");
+                        $('#hdnbkmrk').val("unchecked");
+                    }
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+
+
+        function bookmark() {
+            var Isactive;
+            if ($('#hdnbkmrk').val() == "checked") {
+                Isactive = false;
+            } else {
+                Isactive = true;
+            }
+            var bookmrkmodel = {
+                ResturantId: $("#ResDDL").val(),
+                UserId: userId,
+                Isactive: Isactive
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:53808/api/tablereservation/POSTBookmark",
+                data: bookmrkmodel,
+                success: function (data) {
+                    if ($('#hdnbkmrk').val() == "unchecked") {
+                        $('#hdnbkmrk').val("checked");
+                        $('#bkmrk').addClass("checked");
+                    }
+                    else {
+                        $('#hdnbkmrk').val("unchecked");
+                        $('#bkmrk').removeClass("checked");
+                    }
                 },
                 failure: function (data) {
                     alert(xhr.status);

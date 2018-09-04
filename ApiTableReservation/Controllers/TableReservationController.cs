@@ -34,7 +34,7 @@ namespace ApiTableReservation.Controllers
                     conn.Close();
                 }
             }
-            catch
+            catch (Exception ex)
             {
 
             }
@@ -163,6 +163,7 @@ namespace ApiTableReservation.Controllers
                 {
                     SqlCommand sqlComm = new SqlCommand("GetRestuarantDetails", conn);
                     sqlComm.Parameters.AddWithValue("@ResturantId", model.ResturantId);
+                    sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
                     sqlComm.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter();
                     da.SelectCommand = sqlComm;
@@ -197,5 +198,122 @@ namespace ApiTableReservation.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, ds);
         }
+
+        public HttpResponseMessage POSTBookmark(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("BookMarkResturant", conn);
+                    sqlComm.Parameters.AddWithValue("@userId", model.UserId);
+                    sqlComm.Parameters.AddWithValue("@ResturantId", model.ResturantId);
+                    sqlComm.Parameters.AddWithValue("@bookmarkId", model.BookmarkId);
+                    sqlComm.Parameters.AddWithValue("@Isactive", model.Isactive);
+                    
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTUserBookmarks(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("GETUserBookmark", conn);
+                    sqlComm.Parameters.AddWithValue("@userId", model.UserId);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTdelteBkmrk(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("DeleteUserBookmark", conn);
+                    sqlComm.Parameters.AddWithValue("@BookmarkId", model.BookmarkId);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTAdminRole(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("GetAdminRole", conn);
+                    sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
+                    sqlComm.Parameters.AddWithValue("@Callfrm", model.Callfrm);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTmakeadmin(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("AdminAccess", conn);
+                    sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
+                    sqlComm.Parameters.AddWithValue("@Isadmin", model.Isadmin);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
     }
 }

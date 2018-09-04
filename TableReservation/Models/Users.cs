@@ -29,5 +29,11 @@ namespace TableReservation.Models
 
         public System.DateTime CreatedDate { get; set; }
 
+        public bool Isactive { get; set; }
+        public int BookmarkId { get; set; }
+        public string Callfrm { get; set; }
+
+        public bool Isadmin { get; set; }
+
     }
 }
