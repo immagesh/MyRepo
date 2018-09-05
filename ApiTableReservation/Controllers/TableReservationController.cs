@@ -211,7 +211,7 @@ namespace ApiTableReservation.Controllers
                     sqlComm.Parameters.AddWithValue("@ResturantId", model.ResturantId);
                     sqlComm.Parameters.AddWithValue("@bookmarkId", model.BookmarkId);
                     sqlComm.Parameters.AddWithValue("@Isactive", model.Isactive);
-                    
+
                     sqlComm.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter();
                     da.SelectCommand = sqlComm;

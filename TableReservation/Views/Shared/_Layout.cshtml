@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body style='background:#f5f3cf'>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -16,14 +16,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Restaurants Table Booking ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <p class="site-title">
+                    <a href="@Url.Action("Index", "Home")">
+                        <b class="btn btn-dark"> Foodo</b>  <img src="~/Images/Foodo.jpg" alt="Foodo" style="width: 60px;height: 60px;" />
+                    </a>
+                </p>
+                @*@Html.ActionLink("Foodo ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated)
                     {
-                        <li style="color:orangered"> Welcome @Html.Encode(User.Identity.Name)</li>
-
+                        <li style="color:orangered"><p> &nbsp; Welcome @Html.Encode(User.Identity.Name)</p></li>
                         <li>
                             @Html.ActionLink("Dashboard", "Dasboard", "Home")
                         </li>
@@ -50,7 +54,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year Foodo</p>
         </footer>
     </div>
 

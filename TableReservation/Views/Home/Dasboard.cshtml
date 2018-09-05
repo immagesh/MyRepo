@@ -9,7 +9,7 @@
 
     div.steelBlueCols {
         border: 4px solid #555555;
-        background-color: #555555;
+        background-color: orange;
         width: 800px;
         text-align: center;
         border-collapse: collapse;
@@ -85,52 +85,142 @@
     .checked {
         color: orange;
     }
+
+    body {
+        padding: 10px;
+    }
+
+    #exTab1 .tab-content {
+        color: white;
+        background-color: #abf4ab;
+        padding: 5px 15px;
+    }
+
+    #exTab2 h3 {
+        color: white;
+        background-color: #428bca;
+        padding: 5px 15px;
+    }
+
+    /* remove border radius for the tab */
+
+    #exTab1 .nav-pills > li > a {
+        border-radius: 0;
+    }
+
+    /* change border radius for the tab , apply corners on top*/
+
+    #exTab3 .nav-pills > li > a {
+        border-radius: 4px 4px 0 0;
+    }
+
+    #exTab3 .tab-content {
+        color: white;
+        background-color: #428bca;
+        padding: 5px 15px;
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<br />
+<br />
 <h2>Book your Table</h2>
 <h3>Please select your booking details</h3>
 <br />
-<br />
 Select a Resturant
-<select class="btn btn-primary dropdown-toggle" id="ResDDL"></select>
+<select class="btn btn-info dropdown-toggle" id="ResDDL"></select>
 Select a date and time
 <input type="text" id="ChckInDte" name="Check In Date">
 Number of guests
-<select class="btn btn-primary dropdown-toggle" id="GuestDDL"></select>  <span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark">Bookmark Restaurant</span>
+<select class="btn btn-info dropdown-toggle" id="GuestDDL"></select>  <span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark">Bookmark Restaurant</span>
 <input type="hidden" id="hdnbkmrk" value="unchecked" />
 <br />
 <br />
-@Html.ActionLink("Your Bookmarks", "Bookmarks", "Home", new { }, null)
+@if (Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
+{
+    <button class="btn btn-light" data-toggle="collapse" data-target="#bookFor">Book For?</button>
+    <div id="bookFor" class="collapse">
+        <table>
+            <tr>
+                <td>
+                    Select Username :
+                </td>
+                <td>
+                    <select class="btn btn-info dropdown-toggle" id="selectnme"></select>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
 <br />
 <br />
-<text><b>Restaurant Overview</b></text>
-<div id="ResDetails">
-    <div class="divTable steelBlueCols">
-        <div class="divTableBody">
-            <div class="divTableRow">
-                <div class="divTableCell">Adddress</div>
-                <div class="divTableCell" id="ResAddr">cell2_1</div>
+
+@Html.ActionLink("Your Bookmarks", "Bookmarks", "Home", null, new { @class = "btn btn-light" })
+<br />
+<br />
+<button class="btn btn-warning" data-toggle="collapse" data-target="#demo">Booking History</button>
+<div id="demo" class="collapse">
+    <table id="usergrid" class="display" style="width:100%"></table>
+</div>
+<br />
+<br />
+<div class="container"><h1>Restaurant Overview  </h1></div>
+<div id="exTab1" class="container">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#1a" data-toggle="tab">Overview</a>
+        </li>
+        <li>
+            <a href="#2a" data-toggle="tab">Menu</a>
+        </li>
+        <li>
+            <a href="#3a" data-toggle="tab">Reviews</a>
+        </li>
+        <li>
+            <a href="#4a" data-toggle="tab">Photos</a>
+        </li>
+        <li>
+            <a href="#5a" data-toggle="tab">Videos</a>
+        </li>
+    </ul>
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="1a">
+            <div id="ResDetails">
+                <div class="divTable steelBlueCols">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableCell">Adddress</div>
+                            <div class="divTableCell" id="ResAddr">cell2_1</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell">Phone Number</div>
+                            <div class="divTableCell" id="phnnumber">cell2_2</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell">Average Cost</div>
+                            <div class="divTableCell" id="avgcost">cell2_2</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="divTableRow">
-                <div class="divTableCell">Phone Number</div>
-                <div class="divTableCell" id="phnnumber">cell2_2</div>
-            </div>
-            <div class="divTableRow">
-                <div class="divTableCell">Average Cost</div>
-                <div class="divTableCell" id="avgcost">cell2_2</div>
-            </div>
+        </div>
+        <div class="tab-pane" id="2a">
+            <ul id="menuul"></ul>
+        </div>
+        <div class="tab-pane" id="3a">
+            <h3>Coming Soon</h3>
+        </div>
+        <div class="tab-pane" id="4a">
+            <ul id="photoul"></ul>
+        </div>
+        <div class="tab-pane" id="5a">
+            <h3>Coming Soon</h3>
         </div>
     </div>
 </div>
 <br />
 <br />
+<input type="hidden" id="Isadm" value="@Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"])" />
 <input class="btn btn-success" type="button" onclick="BookTablet()" value="Submit" />
-<br />
-<br />
-<button class="btn btn-light" data-toggle="collapse" data-target="#demo">Booking History</button>
-<div id="demo" class="collapse">
-    <table id="usergrid" class="display" style="width:100%"></table>
-</div>
 @section scripts {
     <script type="text/javascript">
         $("#ChckInDte").datetimepicker({
@@ -173,7 +263,7 @@ Number of guests
                 success: function (data) {
                     $("#usergrid").empty();
                     if (data.Table.length > 0) {
-                        $("#usergrid").append("<tr><th>Registration Number</th><th>Resturant Name</th><th>Guests</th><th>Date</th><th>Status</th></tr>");
+                        $("#usergrid").append("<tr><th>Booking Number</th><th>Resturant Name</th><th>Guests</th><th>Date</th><th>Status</th></tr>");
                         for (var i = 0; i < data.Table.length; i++) {
                             if (data.Table[i].StatusId == 1) {
                                 $("#usergrid").append("<tr><td>" +
@@ -201,6 +291,9 @@ Number of guests
                             }
                         }
                     }
+                    $.each(data.Table1, function (key, value) {
+                        $("#selectnme").append($('<option></option>').val(value.UserId).html(value.Username));
+                    });
                 },
                 failure: function (data) {
                     alert(data.responseText);
@@ -212,6 +305,13 @@ Number of guests
         }
 
         function BookTablet() {
+            var uId;
+            if ($("#Isadm").val() != "") {
+                uId = $("#selectnme").val();
+            }
+            else {
+                uId = userId;
+            }
             var valid = true,
                 message = '';
             if ($("#ChckInDte").val() == "") {
@@ -226,7 +326,7 @@ Number of guests
                     ResturantId: $("#ResDDL").val(),
                     ApptDate: $("#ChckInDte").val(),
                     GuestCount: $("#GuestDDL").val(),
-                    UserId: userId
+                    UserId: uId
                 }
 
                 $.ajax({
@@ -275,6 +375,16 @@ Number of guests
                         $('#bkmrk').removeClass("checked");
                         $('#hdnbkmrk').val("unchecked");
                     }
+                    $("#menuul").html('');
+                    var list = $("#menuul").append('<ul ></ul>').find('ul');
+                    $.each(data.Table2, function (key, value) {
+                        list.append('<li><img style="width: 600px;" src="http://localhost:53281/' + value.imgurl +'"/></li><br />');
+                    });
+                    $("#photoul").html('');
+                    var list = $("#photoul").append('<ul ></ul>').find('ul');
+                    $.each(data.Table3, function (key, value) {
+                        list.append('<li><img style="width: 600px;" src="http://localhost:53281/' + value.img_url + '"/></li><br />');
+                    });
                 },
                 failure: function (data) {
                     alert(xhr.status);
@@ -284,7 +394,6 @@ Number of guests
                 }
             });
         }
-
 
 
         function bookmark() {
@@ -313,6 +422,7 @@ Number of guests
                         $('#hdnbkmrk').val("unchecked");
                         $('#bkmrk').removeClass("checked");
                     }
+                    alert("Resturant Bookmarked Successfully");
                 },
                 failure: function (data) {
                     alert(xhr.status);
