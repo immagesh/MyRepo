@@ -32,5 +32,7 @@ namespace ApiTableReservation.Models
         public int BookmarkId { get; set; }
         public string Callfrm { get; set; }
         public bool Isadmin { get; set; }
+
+        public string notes { get; set; }
     }
 }

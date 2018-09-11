@@ -78,5 +78,14 @@ namespace TableReservation.Controllers
         {
             return View();
         }
+
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+        public ActionResult BookHistory()
+        {
+            return View();
+        }
     }
 }

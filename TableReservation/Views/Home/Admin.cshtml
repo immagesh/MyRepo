@@ -9,8 +9,34 @@
             border: 1px solid black;
         }
     </style>
-    <h2>Admin</h2>
-    <table id="example" class="display" style="width:100%"></table>
+    <link href="~/Content/zomato.css" rel="stylesheet" />
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(@System.Configuration.ConfigurationManager.AppSettings["webappurl"].ToString()Img/bg-img/hero-1.jpg)">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="breadcumb-content">
+                        <h2>Admin Approve/Reject</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="resbox__sidebar display-similar-nearby-res ui segment">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Guests</th>
+                    <th>Booking Number</th>
+                    <th>Resturant Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
     <br />
     <br />
     @Html.ActionLink("Admin Access", "AdminRole", "Home", new { }, null)
@@ -22,6 +48,7 @@ else
 }
 @section scripts {
     <script type="text/javascript">
+        
         $(document).ready(function () {
             onload();
         });
@@ -29,15 +56,15 @@ else
         function onload() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:53808/api/tablereservation/GETAdminGrid",
+                url: appUrl + "api/tablereservation/GETAdminGrid",
                 //data: model,
                 success: function (data) {
-                    $("#example").empty();
+                    //$("#example").empty();
                     if (data.Table.length > 0) {
-                        $("#example").append("<tr><th>User</th><th>Email</th><th>Date</th><th>Guests</th><th>Booking Number</th><th>Resturant Name</th><th>Action</th></tr>");
+                        //$("#example").append("<tr><th>User</th><th>Email</th><th>Date</th><th>Guests</th><th>Booking Number</th><th>Resturant Name</th><th>Action</th></tr>");
                         for (var i = 0; i < data.Table.length; i++) {
                             if (data.Table[i].StatusId == 1) {
-                                $("#example").append("<tr><td>" +
+                                $("#example tbody").append("<tr><td>" +
                                     data.Table[i].UserName + "</td> <td>" +
                                     data.Table[i].Email + "</td> <td>" +
                                     data.Table[i].ApptDate + "</td> <td>" +
@@ -47,7 +74,7 @@ else
                                 );
                             }
                             else if (data.Table[i].StatusId == 2) {
-                                $("#example").append("<tr><td>" +
+                                $("#example tbody").append("<tr><td>" +
                                     data.Table[i].UserName + "</td> <td>" +
                                     data.Table[i].Email + "</td> <td>" +
                                     data.Table[i].ApptDate + "</td> <td>" +
@@ -57,7 +84,7 @@ else
                                 );
                             }
                             else {
-                                $("#example").append("<tr><td>" +
+                                $("#example tbody").append("<tr><td>" +
                                     data.Table[i].UserName + "</td> <td>" +
                                     data.Table[i].Email + "</td> <td>" +
                                     data.Table[i].ApptDate + "</td> <td>" +
@@ -67,6 +94,7 @@ else
                                 );
                             }
                         }
+                        $("#example").dataTable({ "aaSorting": [[4, "desc"]], "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]] });
                     }
 
                 },
@@ -87,7 +115,7 @@ else
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:53808/api/tablereservation/POSTChangestatus",
+                url: appUrl + "api/tablereservation/POSTChangestatus",
                 data: statusmodel,
                 success: function (data) {
                     alert("Status Changed Successfully");

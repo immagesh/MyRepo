@@ -12,8 +12,21 @@
         font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
     }
 </style>
-<h2>Your Bookmarks</h2>
-<ul id="details"></ul>
+<link href="~/Content/zomato.css" rel="stylesheet" />
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(@System.Configuration.ConfigurationManager.AppSettings["webappurl"].ToString()Img/bg-img/hero-3.jpg)">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-content">
+                    <h2>Bookmarks</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="resbox__sidebar display-similar-nearby-res ui segment">
+    <ul id="details"></ul>
+</div>
 @section scripts {
     <script type="text/javascript">
         var userId = '@Request.RequestContext.HttpContext.Session["UserId"]';
@@ -29,11 +42,11 @@
             }
             $.ajax({
                 type: "POST",
-                url: "http://localhost:53808/api/tablereservation/POSTUserBookmarks",
+                url: appUrl +"api/tablereservation/POSTUserBookmarks",
                 data: modelparam,
                 success: function (data) {
                     $.each(data.Table, function (key, value) {
-                        list.append('<li><h3>' + value.RestaurantName + '</h3><p>' + value.ResAddr + ', ' + value.Phnenum + '</p><span onclick="removeBkmrk(' + value.bookmrkId + ')">Remove Bookmark</span></li> ');
+                        list.append('<li><h3>' + value.RestaurantName + '</h3><p>' + value.ResAddr + ', ' + value.Phnenum + '</p><span class="fa fa-trash" title="Delete bookmark" onclick="removeBkmrk(' + value.bookmrkId + ')"></span></li><hr>');
                     });
                 },
                 failure: function (data) {
@@ -51,7 +64,7 @@
             }
             $.ajax({
                 type: "POST",
-                url: "http://localhost:53808/api/tablereservation/POSTdelteBkmrk",
+                url: appUrl +"api/tablereservation/POSTdelteBkmrk",
                 data: modelparam,
                 success: function (data) {
                     alert("Bookmark removed successfully!!!");

@@ -97,6 +97,7 @@ namespace ApiTableReservation.Controllers
                     sqlComm.Parameters.AddWithValue("@ApptDate", model.ApptDate);
                     sqlComm.Parameters.AddWithValue("@GuestCount", model.GuestCount);
                     sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
+                    sqlComm.Parameters.AddWithValue("@notes", model.notes);
                     sqlComm.CommandType = CommandType.StoredProcedure;
                     conn.Open();
                     affectedRows = (int)sqlComm.ExecuteScalar();
