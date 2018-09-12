@@ -36,6 +36,7 @@ namespace TableReservation.Models
         public bool Isadmin { get; set; }
 
         public string notes { get; set; }
+        public string Phonenumber { get; set; }
 
     }
 }

@@ -138,215 +138,201 @@
     </div>
     <div class="clear"></div>
 </div>
-@*<div class="resbox__sidebar display-similar-nearby-res ui segment">
-        <div id="resbackgd">Example of a DIV element with a background image:</div>
-    </div>*@
 <br />
-@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
-@*Select a Resturant*@
-@*<select class="btn btn-info dropdown-toggle" id="ResDDL"></select>*@
-@*Select a date and time*@
-@*<input type="text" id="ChckInDte" name="Check In Date">*@
-@*Number of guests*@
-@*<span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark">Bookmark Restaurant</span>*@
 <input type="hidden" id="hdnbkmrk" value="unchecked" />
-@*@if (Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
-    {
-        <button class="btn btn-light" data-toggle="collapse" data-target="#bookFor">Book For?</button>
-        <div id="bookFor" class="collapse">
-            <table>
-                <tr>
-                    <td>
-                        Select Username :
-                    </td>
-                    <td>
-                        <select class="btn btn-info dropdown-toggle" id="selectnme"></select>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    }*@
-@*<button class="btn btn-warning" data-toggle="collapse" data-target="#demo">Booking History</button>
-    <div id="demo" class="collapse">
-        <table id="usergrid" class="display" style="width:100%"></table>
-    </div>*@
 <div class="clear"></div>
-<div class="respageMenuContainer" style="width:50% !important;margin-left: 93px;">
-    <div class="ui removeMenuBorder respageMenu large menu res-tabs-inner mb0">
-        <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track active" href="#1a" data-tab_type="info" data-current_tab="/info">
-            <span class="fontsize2">
-                Overview
-            </span>
-        </a>
-        <a data-toggle="tab" class="item restaurant-tab-item-jumbo-track " id="res_page_book_tab" href="#2a" data-trprovider="MEDIO_ZOMATO" data-tab_type="table_booking" data-current_tab="/info">
-            <h2 class="fontsize2 normal">
-                Book a Table
-            </h2>
-        </a>
-        <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track " href="#3a" data-tab_type="menu" data-current_tab="/info">
-            <span class="fontsize2">
-                Menu
-            </span>
-        </a>
-        <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track " href="#4a" data-tab_type="reviews" data-current_tab="/info">
-            <span class="fontsize2">
-                Photos
-            </span>
-        </a>
-        <a data-toggle="tab" class="item respageMenu-item photosTab restaurant-tab-item-jumbo-track " href="#5a" onclick="getreviews();" data-tab_type="photos" data-current_tab="/info">
-            <span class="fontsize2">
-                Reviews
-            </span>
-        </a>
-        <div class="nav_bar_arrow nav_bar_arrow_left ml11 hidden"><i class="angle left icon zred"></i></div>
-        <div class="nav_bar_arrow nav_bar_arrow_right mr11 hidden"><i class="angle right icon zred"></i></div>
-    </div>
-</div>
-<div class="clear"></div>
-<div id="exTab1" class="container">
-    <div class="tab-content clearfix">
-        <div class="tab-pane active" id="1a">
-            <div class="row ui segment">
-                <div class="col-l-1by3    pl0 pr20">
-                    <div class="mbot">
-                        <div id="resinfo-phone" class="res-main-phone p-relative phone-details clearfix">
-                            <div class="phone" id="phoneNoString">
-                                <h2 class="mb5" tabindex="0" role="heading" aria-label="Phone number">Phone number</h2>
-                                <span class="tel left res-tel">
-                                    <span class="fontsize2 bold zgreen"><span tabindex="0" id="phnnumber" class="tel"></span></span><br>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="mb5 res-main-phone-reservation">
-                            <span class=" grey-text">
-                                Table booking recommended
-                            </span>
-                        </span>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="mbot">
-                        <div class="res-info-group clearfix">
-                            <h2 tabindex="0" class="mt0 mb5">Cuisines</h2>
-                            <div class="res-info-cuisines clearfix">
-                                <a class="zred" id="cuisines"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mbot mtop">
-                        <div class="res-info-group clearfix">
-                            <div class="res-info-detail">
-                                <div tabindex="0">
-                                    <h2 class="left mt0 mb5">Average Cost&nbsp;</h2>
-                                    <div class="clear"></div>
-                                </div>
-                                <span tabindex="0" id="avgcost"></span><div class="grey-text fontsize5 subtext">Exclusive of applicable taxes and charges, if any</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mtop">
-                        <div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-l-1by3   pl20 pr20">
-                    <div class="mbot">
-                        <div class="res-info-group clearfix">
-                            <div class="res-info-detail">
-                                <div tabindex="0" class="s-title hdn">
-                                    <div class="left mr10">Opening hours</div>
-                                    <div class="clear"></div>
-                                </div>
-                                <div class="res-info-timings">
-                                    <div class="clearfix" tabindex="0"><h2 class="mt0 mb5 inlineblock">Rating</h2><h2 class="mt0" id="Ratingz"></h2></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb5">
-                        <h2 tabindex="0" aria-label="Address">
-                            Address
-                        </h2>
-                    </div>
-                    <div class="mbot0">
-
-                        <div class="borderless res-main-address">
-                            <div class="resinfo-icon">
-                                <span id="ResAddr"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="row">
+    <div class="res-info-left col-l-11" style="min-height: 77px;">
+        <div class="respageMenuContainer" style="width:74% !important;margin-left: 32px;">
+            <div class="ui removeMenuBorder respageMenu large menu res-tabs-inner mb0">
+                <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track active" id="overviewres" onclick="setactiveclass(1);" href="#1a" data-tab_type="info" data-current_tab="/info">
+                    <span class="fontsize2">
+                        Overview
+                    </span>
+                </a>
+                <a data-toggle="tab" class="item restaurant-tab-item-jumbo-track " id="res_page_book_tab" onclick="setactiveclass(2);" href="#2a" data-trprovider="MEDIO_ZOMATO" data-tab_type="table_booking" data-current_tab="/info">
+                    <h2 class="fontsize2 normal">
+                        Book a Table
+                    </h2>
+                </a>
+                <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track" id="menu" onclick="setactiveclass(3);" href="#3a" data-tab_type="menu" data-current_tab="/info">
+                    <span class="fontsize2">
+                        Menu
+                    </span>
+                </a>
+                <a data-toggle="tab" class="item respageMenu-item restaurant-tab-item-jumbo-track" id="Photos" onclick="setactiveclass(4);" href="#4a" data-tab_type="reviews" data-current_tab="/info">
+                    <span class="fontsize2">
+                        Photos
+                    </span>
+                </a>
+                <a data-toggle="tab" class="item respageMenu-item photosTab restaurant-tab-item-jumbo-track" id="Reviews" href="#5a" onclick="getreviews();setactiveclass(5);" data-tab_type="photos" data-current_tab="/info">
+                    <span class="fontsize2">
+                        Reviews
+                    </span>
+                </a>
+                <div class="nav_bar_arrow nav_bar_arrow_left ml11 hidden"><i class="angle left icon zred"></i></div>
+                <div class="nav_bar_arrow nav_bar_arrow_right mr11 hidden"><i class="angle right icon zred"></i></div>
             </div>
         </div>
-        <div class="tab-pane" id="2a">
-            <div class="row ui segment">
-                <div class="container booktable__container mtop ui segment  " id="mezzo_container">
-                    <div class="ui inverted dimmer" id="booktable__dimmer"></div>
-                    <div id="booktable__loader" class="ui text loader red" style="display:none;"></div>
-                    <div class="booktable__formcontainer " id="booktable__formcontainer">
-                        <div class="loader hidden"></div>
-                        <div class="booktable__form_wrapper ">
-                            <div class="ui three cards deal-cards mt0 pb20"></div>
-                            <div class="clear"></div>
-                            <section>
-                                <form class="booktable__form clearfix" id="components-form">
-                                    <p class="ui header">
-                                        1. Please select your booking details
-                                    </p>
-                                    <div class="booktable__component col-l-1by3 pl0i mb15 ">
-                                        <label class="ttupper fontsize5 bold">Select a date</label>
-                                        <div class="date-picker mbot0" data-maxdays="30" id="date-picker" data-book-date="">
-                                            <input class="date-picker-mobile mobile-selector ui selection dropdown fluid" type="text" id="ChckInDte" name="Check In Date">
+        <div class="clear"></div>
+        <div id="exTab1" class="container">
+            <div class="tab-content clearfix">
+                <div class="tab-pane active" id="1a">
+                    <div class="row ui segment">
+                        <div class="col-l-1by3    pl0 pr20">
+                            <div class="mbot">
+                                <div id="resinfo-phone" class="res-main-phone p-relative phone-details clearfix">
+                                    <div class="phone" id="phoneNoString">
+                                        <h2 class="mb5" tabindex="0" role="heading" aria-label="Phone number">Phone number</h2>
+                                        <span class="tel left res-tel">
+                                            <span class="fontsize2 bold zgreen"><span tabindex="0" id="phnnumber" class="tel"></span></span><br>
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="mb5 res-main-phone-reservation">
+                                    <span class=" grey-text">
+                                        Table booking recommended
+                                    </span>
+                                </span>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="mbot">
+                                <div class="res-info-group clearfix">
+                                    <h2 tabindex="0" class="mt0 mb5">Cuisines</h2>
+                                    <div class="res-info-cuisines clearfix">
+                                        <a class="zred" id="cuisines"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mbot mtop">
+                                <div class="res-info-group clearfix">
+                                    <div class="res-info-detail">
+                                        <div tabindex="0">
+                                            <h2 class="left mt0 mb5">Average Cost&nbsp;</h2>
                                             <div class="clear"></div>
                                         </div>
-                                        <div class="clear"></div>
+                                        <span tabindex="0" id="avgcost"></span><div class="grey-text fontsize5 subtext">Exclusive of applicable taxes and charges, if any</div>
                                     </div>
-                                    <div class="booktable__component col-l-1by3 pl0i mb15">
-                                        <label class="ttupper fontsize5 bold">Number of Guests</label>
-                                        <div class="number-picker" data-max="20" data-min="1" id="number-picker">
-                                            <select class="party-picker-mobile ui selection dropdown fluid mobile-selector" id="GuestDDL"></select>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <div class="booktable__component col-l-1by3 pl0i mb15">
-                                        <label class="ttupper fontsize5 bold">Bookmark Resturant</label>
-                                        <div class="number-picker">
-                                            <span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark"></span>
-                                            @*<img src="~/Img/like.png" id="bkmrk" onclick="bookmark();" title="Click to bookmark" />*@
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                </form>
-                            </section>
-                            <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="mtop">
+                                <div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="userdata__form_wrapper ui vertical segment nb ">
-                            <div class="clear"></div>
-                            @if (Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
-                            {
-                                <section>
-                                    <div class="book-details ptop0 pbot">
-                                        <p class="title ui header">2. Enter guest details</p>
-                                    </div>
-                                    <div class="form-error-common hidden"></div>
-                                    <form class="booktable__form userdata-form disabled pb10" name="userdata-form" id="userdata-form">
-                                        <div class="col-l-8 pl0 mb15 input-container phone">
-
-                                            <label class="form-label ttupper bold fontsize5">Book For </label>
-                                            <button class="btn btn-light" href="#8a">Whom?</button>
-                                            <div id="8a" class="tab-pane">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            Select Username :
-                                                        </td>
-                                                        <td>
-                                                            <select class="btn btn-info dropdown-toggle" id="selectnme"></select>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
+                        <div class="col-l-1by3   pl20 pr20">
+                            <div class="mbot">
+                                <div class="res-info-group clearfix">
+                                    <div class="res-info-detail">
+                                        <div tabindex="0" class="s-title hdn">
+                                            <div class="left mr10">Opening hours</div>
+                                            <div class="clear"></div>
                                         </div>
+                                        <div class="res-info-timings">
+                                            <div class="clearfix" tabindex="0"><h2 class="mt0 mb5 inlineblock">Rating</h2><h2 class="mt0" id="Ratingz"></h2></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb5">
+                                <h2 tabindex="0" aria-label="Address">
+                                    Address
+                                </h2>
+                            </div>
+                            <div class="mbot0">
+
+                                <div class="borderless res-main-address">
+                                    <div class="resinfo-icon">
+                                        <span id="ResAddr"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2a">
+                    <div class="row ui segment">
+                        <div class="container booktable__container mtop ui segment  " id="mezzo_container">
+                            <div class="ui inverted dimmer" id="booktable__dimmer"></div>
+                            <div id="booktable__loader" class="ui text loader red" style="display:none;"></div>
+                            <div class="booktable__formcontainer " id="booktable__formcontainer">
+                                <div class="loader hidden"></div>
+                                <div class="booktable__form_wrapper ">
+                                    <div class="ui three cards deal-cards mt0 pb20"></div>
+                                    <div class="clear"></div>
+                                    <section>
+                                        <form class="booktable__form clearfix" id="components-form">
+                                            <p class="ui header">
+                                                1. Please select your booking details
+                                            </p>
+                                            <div class="booktable__component col-l-1by3 pl0i mb15 ">
+                                                <label class="ttupper fontsize5 bold">Select a date</label>
+                                                <div class="date-picker mbot0" data-maxdays="30" id="date-picker" data-book-date="">
+                                                    <input class="date-picker-mobile mobile-selector ui selection dropdown fluid" type="text" id="ChckInDte" name="Check In Date">
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="booktable__component col-l-1by3 pl0i mb15">
+                                                <label class="ttupper fontsize5 bold">Number of Guests</label>
+                                                <div class="number-picker" data-max="20" data-min="1" id="number-picker">
+                                                    <select class="party-picker-mobile ui selection dropdown fluid mobile-selector" id="GuestDDL"></select>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="booktable__component col-l-1by3 pl0i mb15">
+                                                <label class="ttupper fontsize5 bold">Bookmark Resturant</label>
+                                                <div class="number-picker">
+                                                    <span class="fa fa-star" id="bkmrk" onclick="bookmark();" title="Click to bookmark"></span>
+                                                    @*<img src="~/Img/like.png" id="bkmrk" onclick="bookmark();" title="Click to bookmark" />*@
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="userdata__form_wrapper ui vertical segment nb ">
+                                    <div class="clear"></div>
+                                    @if (Convert.ToBoolean(Request.RequestContext.HttpContext.Session["Isadmin"]))
+                                    {
+                                        <section>
+                                            <div class="book-details ptop0 pbot">
+                                                <p class="title ui header">2. Enter guest details</p>
+                                            </div>
+                                            <div class="form-error-common hidden"></div>
+                                            <form class="booktable__form userdata-form disabled pb10" name="userdata-form" id="userdata-form">
+                                                <div class="col-l-8 pl0 mb15 input-container phone">
+
+                                                    <label class="form-label ttupper bold fontsize5">Book For </label>
+                                                    <button class="btn btn-light" href="#8a">Whom?</button>
+                                                    <div id="8a" class="tab-pane">
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    Select Username :
+                                                                </td>
+                                                                <td>
+                                                                    <select class="btn btn-info dropdown-toggle" id="selectnme"></select>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="input-container additional">
+                                                    <label class="form-label ttupper bold fontsize5 mt10">Special requests</label>
+                                                    <textarea name="notes" id="notes" data-validate="text" placeholder="Additional requests are not guaranteed. The restaurant will do its best to fulfil your request."></textarea>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <section class="mbot res-notice hidden ui segment" id="res-note">
+                                                    <p class="small"></p>
+                                                </section>
+                                            </form>
+                                        </section>
+                                    }
+                                    else
+                                    {
                                         <div class="clear"></div>
                                         <div class="input-container additional">
                                             <label class="form-label ttupper bold fontsize5 mt10">Special requests</label>
@@ -356,40 +342,40 @@
                                         <section class="mbot res-notice hidden ui segment" id="res-note">
                                             <p class="small"></p>
                                         </section>
-                                    </form>
-                                </section>
-                            }
-                            else
-                            {
-                                <div class="clear"></div>
-                                <div class="input-container additional">
-                                    <label class="form-label ttupper bold fontsize5 mt10">Special requests</label>
-                                    <textarea name="notes" id="notes" data-validate="text" placeholder="Additional requests are not guaranteed. The restaurant will do its best to fulfil your request."></textarea>
+                                    }
+                                    <section class="pt5 mobile-button-container ">
+                                        <button class="ui big button blue  booktable__button" value="Confirm Booking" id="confirm-booking" onclick="BookTablet()">Confirm Booking</button>
+                                    </section>
                                 </div>
-                                <div class="clear"></div>
-                                <section class="mbot res-notice hidden ui segment" id="res-note">
-                                    <p class="small"></p>
-                                </section>
-                            }
-                            <section class="pt5 mobile-button-container ">
-                                <button class="ui big button blue  booktable__button" value="Confirm Booking" id="confirm-booking" onclick="BookTablet()">Confirm Booking</button>
-                            </section>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="3a">
+                    <div class="row ui segment">
+                        <ul id="menuul"></ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="4a">
+                    <div class="row ui segment"> <ul id="photoul"></ul></div>
+                </div>
+                <div class="tab-pane" id="5a">
+                    <div class="row ui segment">
+                        <ul id="Review"></ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="3a">
-            <div class="row ui segment">
-                <ul id="menuul"></ul>
-            </div>
-        </div>
-        <div class="tab-pane" id="4a">
-            <div class="row ui segment"> <ul id="photoul"></ul></div>
-        </div>
-        <div class="tab-pane" id="5a">
-            <div class="row ui segment">
-                <ul id="Review"></ul>
+    </div>
+    <div class="res-info-right">
+        <div class="resbox__sidebar display-similar-nearby-res ui segment" style="width: 346px;">
+            <div class="res-info-group hom">
+                <div class="mb15 bb pbot0">
+                    <h2 tabindex="0" class="fontsize2 semi-bold">Recent Bookings</h2>
+                </div>
+                <div id="similar-restaurants-container" class="section ui cards pbot0">
+
+                </div>
             </div>
         </div>
     </div>
@@ -410,6 +396,7 @@
 
             initalload();
             restDetails(1);
+            getRecentBookings();
             $.ajax({
                 type: "GET",
                 url: appUrl +"api/tablereservation/GETData",
@@ -589,7 +576,6 @@
 
 
         function bookmark() {
-            debugger;
             var Isactive;
             if ($('#hdnbkmrk').val() == "checked") {
                 Isactive = false;
@@ -678,11 +664,70 @@
                     $("#Ratingz").text(data.user_rating.aggregate_rating);
                     //var s = data.featured_image;
                     //s = s.substring(0, s.indexOf('?'));
-                    //debugger;
                     //$("#resbackgd").css('background-image', 'url(' + s + ')'); //data.featured_image
                 }
             });
+        }
 
+        function setactiveclass(tab) {
+            if (tab == 1) {
+                $("#res_page_book_tab").removeClass('active');
+                $("#menu").removeClass('active');
+                $("#overviewres").addClass('active');
+                $("#Photos").removeClass('active');
+                $("#Reviews").removeClass('active');
+            }
+            if (tab == 2) {
+                $("#res_page_book_tab").addClass('active');
+                $("#menu").removeClass('active');
+                $("#overviewres").removeClass('active');
+                $("#Photos").removeClass('active');
+                $("#Reviews").removeClass('active');
+            }
+            if (tab == 3) {
+                $("#res_page_book_tab").removeClass('active');
+                $("#menu").addClass('active');
+                $("#overviewres").removeClass('active');
+                $("#Photos").removeClass('active');
+                $("#Reviews").removeClass('active');
+            }
+            if (tab == 4) {
+                $("#res_page_book_tab").removeClass('active');
+                $("#menu").removeClass('active');
+                $("#overviewres").removeClass('active');
+                $("#Photos").addClass('active');
+                $("#Reviews").removeClass('active');
+            }
+            if (tab == 5) {
+                $("#res_page_book_tab").removeClass('active');
+                $("#menu").removeClass('active');
+                $("#overviewres").removeClass('active');
+                $("#Photos").removeClass('active');
+                $("#Reviews").addClass('active');
+            }
+
+        }
+
+        function getRecentBookings() {
+            var mdl = {
+                UserId: userId
+            }
+            $.ajax({
+                type: "POST",
+                url: appUrl + "api/tablereservation/POSTRecentbookings",
+                data: mdl,
+                success: function (data) {
+                    $.each(data.Table, function (key, value) {
+                        $("#similar-restaurants-container").append($('<div class="col-l-16"><div class="w100  bb "><div class="mtop0 mbot0"><div class="ui list"><div class="item"><b>' + value.Resname + '</b><div class="right floated level-7"><div class="content"><div class= "header nowrap" ></div><div class="grey-text nowrap fontsize5"></div></div></div></div>' + value.resaddr +'</div></div></div>'));
+                    });
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
         }
     </script>
 }

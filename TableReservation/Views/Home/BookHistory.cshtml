@@ -35,7 +35,14 @@
             initalload();
         });
 
+        function DestroyDataTable(tableId) {
+            if ($.fn.DataTable.isDataTable(tableId)) {
+                $(tableId).DataTable().destroy();
+            }
+        } 
+
         function initalload() {
+            DestroyDataTable("#usergrid");
             var modelparam = {
                 UserId: userId
             }
@@ -44,7 +51,7 @@
                 url: appUrl + "api/tablereservation/POSTUserGrid",
                 data: modelparam,
                 success: function (data) {
-                    //$("#usergrid tbody").empty();
+                    $("#usergrid tbody").empty();
                     if (data.Table.length > 0) {
                         //$("#usergrid tbody").append("<tr><th>Booking Number</th><th>Resturant Name</th><th>Guests</th><th>Date</th><th>Status</th></tr>");
                         for (var i = 0; i < data.Table.length; i++) {

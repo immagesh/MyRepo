@@ -191,6 +191,14 @@
     </tr>
     <tr>
         <td>
+            Phone Number
+        </td>
+        <td>
+            <input type="tel" id="Phnnum" name="Phnnum">
+        </td>
+    </tr>
+    <tr>
+        <td>
             <input class="btn btn-blast" type="button" onclick="BkTable();" value="Submit" />
         </td>
     </tr>
@@ -221,15 +229,20 @@
                 message += "Please Enter Email \n";
                 valid = false;
             }
+            if ($("#Phnnum").val() == "") {
+                message += "Please Enter Phone Number \n";
+                valid = false;
+            }
             if (!valid) {
                 alert(message);
             }
             else {
-
+                var phonenumber = '+91' + $("#Phnnum").val();
                 var BkTablemodel = {
                     Username: $("#Username").val(),
                     Password: $("#Password").val(),
                     Email: $("#Email").val(),
+                    Phonenumber: phonenumber
                 }
 
                 $.ajax({
@@ -238,6 +251,8 @@
                     data: BkTablemodel,
                     success: function (data) {
                         alert("Registered Successfully. Please LogIn to Book Table");
+                        window.location.href = webappUrl + 'Home/Login';
+
                     },
                     failure: function (data) {
                         alert(xhr.status);

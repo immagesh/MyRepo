@@ -28,6 +28,7 @@ namespace ApiTableReservation.Controllers
                     sqlComm.Parameters.AddWithValue("@Username", model.Username);
                     sqlComm.Parameters.AddWithValue("@Password", model.Password);
                     sqlComm.Parameters.AddWithValue("@Email", model.Email);
+                    sqlComm.Parameters.AddWithValue("@Phonenumber", model.Phonenumber);
                     sqlComm.CommandType = CommandType.StoredProcedure;
                     conn.Open();
                     affectedRows = (int)sqlComm.ExecuteScalar();
@@ -303,6 +304,28 @@ namespace ApiTableReservation.Controllers
                     SqlCommand sqlComm = new SqlCommand("AdminAccess", conn);
                     sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
                     sqlComm.Parameters.AddWithValue("@Isadmin", model.Isadmin);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = sqlComm;
+                    da.Fill(ds);
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+        public HttpResponseMessage POSTRecentbookings(Users model)
+        {
+            DataSet ds = new DataSet("TimeRanges");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("GetRecentBookings", conn);
+                    sqlComm.Parameters.AddWithValue("@UserId", model.UserId);
                     sqlComm.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter();
                     da.SelectCommand = sqlComm;

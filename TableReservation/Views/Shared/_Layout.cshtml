@@ -11,6 +11,8 @@
     <link href="~/Content/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
     <link href="~/Content/css/responsive/responsive.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datatables.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -80,15 +82,25 @@
                                 }
                                 else
                                 {
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
-                                    </li>
+                                    if (@System.Web.HttpContext.Current.Request.Url.AbsolutePath == "/Home/Register")
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="@Url.Action("Register", "Home")">Register</a>
+                                        </li>
+                                    }
+
                                 }
                             </ul>
                             <!-- Search Btn -->
-                            <div class="caviar-search-btn">
+                            @*<div class="caviar-search-btn">
                                 <a id="search-btn" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                            </div>
+                            </div>*@
                         </div>
                     </nav>
                 </div>
@@ -120,6 +132,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
     <!-- Popper js -->
     <script src="~/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->

@@ -31,6 +31,7 @@
                     <th>Guests</th>
                     <th>Booking Number</th>
                     <th>Resturant Name</th>
+                    <th>Special Request</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -53,13 +54,20 @@ else
             onload();
         });
 
+        function DestroyDataTable(tableId) {
+            if ($.fn.DataTable.isDataTable(tableId)) {
+                $(tableId).DataTable().destroy();
+            }
+        } 
+
         function onload() {
+            DestroyDataTable("#example");
             $.ajax({
                 type: "GET",
                 url: appUrl + "api/tablereservation/GETAdminGrid",
                 //data: model,
                 success: function (data) {
-                    //$("#example").empty();
+                    $("#example tbody").empty();
                     if (data.Table.length > 0) {
                         //$("#example").append("<tr><th>User</th><th>Email</th><th>Date</th><th>Guests</th><th>Booking Number</th><th>Resturant Name</th><th>Action</th></tr>");
                         for (var i = 0; i < data.Table.length; i++) {
@@ -70,7 +78,8 @@ else
                                     data.Table[i].ApptDate + "</td> <td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
                                     data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td>Approved</td></tr>"
+                                    data.Table[i].RestaurantName + "</td><td>" +
+                                    data.Table[i].specialreq + "</td><td>Approved</td></tr>"
                                 );
                             }
                             else if (data.Table[i].StatusId == 2) {
@@ -80,7 +89,8 @@ else
                                     data.Table[i].ApptDate + "</td> <td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
                                     data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td>Rejected</td></tr>"
+                                    data.Table[i].RestaurantName + "</td><td>" +
+                                    data.Table[i].specialreq + "</td><td>Rejected</td></tr>"
                                 );
                             }
                             else {
@@ -90,7 +100,8 @@ else
                                     data.Table[i].ApptDate + "</td> <td>" +
                                     data.Table[i].GuestCount + "</td><td>" +
                                     data.Table[i].RegistrationNumber + "</td><td>" +
-                                    data.Table[i].RestaurantName + "</td><td><input type='button' class='btn-success' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 1 + ");' value='APPROVE'/><input type='button' class='btn-danger' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 2 + ");' value='REJECT'/></td></tr>"
+                                    data.Table[i].RestaurantName + "</td><td>" +
+                                    data.Table[i].specialreq + "</td><td><input type='button' class='btn-success' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 1 + ");' value='APPROVE'/><input type='button' class='btn-danger' onclick='ApproveTble(" + data.Table[i].RegistrationNumber + ',' + 2 + ");' value='REJECT'/></td></tr>"
                                 );
                             }
                         }
