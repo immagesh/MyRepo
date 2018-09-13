@@ -12,6 +12,11 @@ namespace TableReservation.Models
         public int ResturantId { get; set; }
 
         public int ResgistrationId { get; set; }
+        public string Resturantname { get; set; }
+        public string Resturantaddr { get; set; }
+        public string Resturantavgcost { get; set; }
+        public string Resturantrating { get; set; }
+        public string resid { get; set; }
 
         public int StatusId { get; set; }
 

@@ -87,5 +87,10 @@ namespace TableReservation.Controllers
         {
             return View();
         }
+
+        public ActionResult AddResturant()
+        {
+            return View();
+        }
     }
 }

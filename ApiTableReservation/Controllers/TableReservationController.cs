@@ -339,5 +339,30 @@ namespace ApiTableReservation.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, ds);
         }
 
+        public HttpResponseMessage POSTAddRestu(Users model)
+        {
+            int affectedRows = 0;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(con))
+                {
+                    SqlCommand sqlComm = new SqlCommand("AddResturant", conn);
+                    sqlComm.Parameters.AddWithValue("@Resturantname", model.Resturantname);
+                    sqlComm.Parameters.AddWithValue("@Resturantaddr", model.Resturantaddr);
+                    sqlComm.Parameters.AddWithValue("@Resturantavgcost", model.Resturantavgcost);
+                    sqlComm.Parameters.AddWithValue("@resid", model.resid);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    affectedRows = (int)sqlComm.ExecuteScalar();
+                    conn.Close();
+                }
+            }
+            catch
+            {
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, affectedRows);
+        }
+
     }
 }

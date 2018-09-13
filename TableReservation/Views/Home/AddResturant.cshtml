@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "Add Resturant";
+}
+
+<link href="~/Content/zomato.css" rel="stylesheet" />
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url(@System.Configuration.ConfigurationManager.AppSettings["webappurl"].ToString()Img/bg-img/hero-1.jpg)">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-content">
+                    <h2>Add Resturant</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="booktable__component col-l-1by3 pl0i mb15" style="margin: 0 auto;float: none">
+    <label class="ttupper fontsize1 bold">Add a Resturant</label>
+    <div class="session-picker" id="session-picker">
+        <select class="session-picker-mobile ui selection dropdown fluid mobile-selector" onchange="getzomatoresDetails();" id="AddResDDL"></select>
+    </div>
+    <div class="clear"></div>
+</div>
+<br />
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="1a">
+        <div class="row ui segment">
+            <div class="col-l-1by3    pl0 pr20">
+                <div class="mbot">
+                    <div class="res-info-group clearfix">
+                        <h2 tabindex="0" class="mt0 mb5">Cuisines</h2>
+                        <div class="res-info-cuisines clearfix">
+                            <a class="zred" id="addcuisines"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mbot mtop">
+                    <div class="res-info-group clearfix">
+                        <div class="res-info-detail">
+                            <div tabindex="0">
+                                <h2 class="left mt0 mb5">Average Cost&nbsp;</h2>
+                                <div class="clear"></div>
+                            </div>
+                            <span tabindex="0" id="addavgcost"></span><div class="grey-text fontsize5 subtext">Exclusive of applicable taxes and charges, if any</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mtop">
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-l-1by3   pl20 pr20">
+                <div class="mbot">
+                    <div class="res-info-group clearfix">
+                        <div class="res-info-detail">
+                            <div tabindex="0" class="s-title hdn">
+                                <div class="left mr10">Opening hours</div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="res-info-timings">
+                                <div class="clearfix" tabindex="0"><h2 class="mt0 mb5 inlineblock">Rating</h2><h2 class="mt0" id="addRatingz"></h2></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb5">
+                    <h2 tabindex="0" aria-label="Address">
+                        Address
+                    </h2>
+                </div>
+                <div class="mbot0">
+
+                    <div class="borderless res-main-address">
+                        <div class="resinfo-icon">
+                            <span id="addResAddr"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="pt5 mobile-button-container" style="margin: 0 auto;float: none;margin-left: 500px;">
+    <button class="ui big button blue  booktable__button" value="Confirm Booking" id="confirm-booking" onclick="AddRest()">Add Resturant</button>
+</section>
+@section scripts {
+    <script type="text/javascript">
+        $("#AddResDDL").empty();
+        $(document).ready(function () {
+            initalload();
+            //if (navigator.geolocation) {
+            //    navigator.geolocation.getCurrentPosition(showPosition);
+            //} else {
+            //    x.innerHTML = "Geolocation is not supported by this browser.";
+            //}
+            //function showPosition(position) {
+            //    debugger;
+            //    $("#lat").val(position.coords.latitude);
+            //    $("#log").val(position.coords.longitude);
+            //}
+        });
+
+        function initalload() {
+            $.ajax({
+                method: "GET",
+                "content-type": "application/ json",
+                "access-control-allow-origin": "*",
+                "access-control-allow-methods": "GET, POST, DELETE, PUT, PATCH, OPTIONS",
+                "access-control-allow-headers": "X-Zomato-API-Key",
+                "access-control-allow-credentials": "true",
+                async: true,
+                url: "https://developers.zomato.com/api/v2.1/geocode?lat=13.0827&lon=80.2707",
+                headers: {
+                    'X-Zomato-API-Key': '0c5feffd407771b7f4d3e65b01874dff'
+                },
+                content: "application/json",
+                success: function (data) {
+                    $.each(data.nearby_restaurants, function (key, value) {
+                        $("#AddResDDL").append($('<option></option>').val(value.restaurant.id).html(value.restaurant.name));
+                        getzomatoresDetails();
+                    });
+                }
+            });
+        }
+
+        function getzomatoresDetails() {
+            var resId = $("#AddResDDL").val();
+            $.ajax({
+                method: "GET",
+                "content-type": "application/ json",
+                "access-control-allow-origin": "*",
+                "access-control-allow-methods": "GET, POST, DELETE, PUT, PATCH, OPTIONS",
+                "access-control-allow-headers": "X-Zomato-API-Key",
+                "access-control-allow-credentials": "true",
+                async: true,
+                url: "https://developers.zomato.com/api/v2.1/restaurant?res_id=" + resId,
+                headers: {
+                    'X-Zomato-API-Key': '0c5feffd407771b7f4d3e65b01874dff'
+                },
+                content: "application/json",
+                success: function (data) {
+                    $("#addResAddr").text(data.location.address);
+                    $("#addavgcost").text(data.average_cost_for_two);
+                    $("#addcuisines").text(data.cuisines);
+                    $("#addRatingz").text(data.user_rating.aggregate_rating);
+                }
+            });
+        }
+
+        function AddRest() {
+            var modl = {
+                Resturantname: $("#AddResDDL option:selected").text(),
+                Resturantaddr: $("#addResAddr").text(),
+                Resturantavgcost: $("#addavgcost").text() + ' for two people(approx.)',
+                resid: $("#AddResDDL").val()
+            }
+            $.ajax({
+                type: "POST",
+                url: appUrl + "api/tablereservation/POSTAddRestu",
+                data: modl,
+                success: function (data) {
+                    if (data == 1) {
+                        alert("Resturant already available");
+                    }
+                    else {
+                        alert("Resturant added successfully");
+                    }
+                },
+                failure: function (data) {
+                    alert(xhr.status);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+    </script>
+}
+
